@@ -1,0 +1,528 @@
+<!-- templates/treatment_planner.html -->
+{% extends "base.html" %}
+
+{% block title %}Treatment Planner - Diabetes CDSS{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h2 class="text-white mb-4">
+            <i class="fas fa-pills"></i> Personalized Treatment Planner
+        </h2>
+        <p class="text-white-50">AI-optimized treatment plans considering your health profile and constraints</p>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Patient Input Form -->
+    <div class="col-lg-5">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h4 class="mb-0"><i class="fas fa-user-md"></i> Patient Profile</h4>
+            </div>
+            <div class="card-body">
+                <form id="patientProfileForm">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Age</label>
+                            <input title="age" type="number" class="form-control" id="age" name="age" min="1" max="120" value="45" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">BMI</label>
+                            <input title="BMI" type="number" step="0.1" class="form-control" id="bmi" name="bmi" min="15" max="50" value="28.5" required>
+                            <small class="text-muted" id="bmiCategory">Category: Overweight</small>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Glucose Level (mg/dL)</label>
+                            <input title="glucose_level" type="number" step="0.1" class="form-control" id="glucose_level" name="glucose_level" min="50" max="500" value="180" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">HbA1c (%)</label>
+                            <input title="hba1c " type="number" step="0.1" class="form-control" id="hba1c" name="hba1c" min="4" max="15" value="7.5" required>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Blood Pressure (Systolic)</label>
+                            <input title="BP_SYS" type="number" class="form-control" id="blood_pressure_systolic" name="blood_pressure_systolic" min="80" max="200" value="140" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Blood Pressure (Diastolic)</label>
+                            <input title="BP" type="number" class="form-control" id="blood_pressure_diastolic" name="blood_pressure_diastolic" min="50" max="130" value="90" required>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Monthly Budget Constraint (USD)</label>
+                        <input title="budget_constraint" type="number" class="form-control" id="budget_constraint" name="budget_constraint" min="0" max="1000" value="200">
+                        <small class="text-muted">Estimated monthly budget for treatments</small>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Patient Preferences</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="prefers_pills" name="prefers_pills" checked>
+                            <label class="form-check-label" for="prefers_pills">Prefer medication over lifestyle changes</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="prefers_exercise" name="prefers_exercise">
+                            <label class="form-check-label" for="prefers_exercise">Willing to exercise regularly</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="prefers_diet" name="prefers_diet" checked>
+                            <label class="form-check-label" for="prefers_diet">Willing to follow dietary restrictions</label>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Comorbidities (select all that apply)</label>
+                        <select title="comorbidities" class="form-select" id="comorbidities" name="comorbidities" multiple>
+                            <option value="hypertension">Hypertension</option>
+                            <option value="obesity">Obesity</option>
+                            <option value="kidney_disease">Kidney Disease</option>
+                            <option value="heart_disease">Heart Disease</option>
+                            <option value="neuropathy">Neuropathy</option>
+                            <option value="retinopathy">Retinopathy</option>
+                        </select>
+                        <small class="text-muted">Hold Ctrl/Cmd to select multiple</small>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="fas fa-robot"></i> Generate Optimized Treatment Plan
+                    </button>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Risk Assessment Card -->
+        <div class="card">
+            <div class="card-header">
+                <h4 class="mb-0"><i class="fas fa-exclamation-triangle"></i> Risk Assessment</h4>
+            </div>
+            <div class="card-body">
+                <div class="text-center">
+                    <h1 id="riskScore" class="display-4">--</h1>
+                    <h3 id="riskLevel" class="mb-3">Not Calculated</h3>
+                    <div class="progress" style="height: 25px;">
+                        <div id="riskProgress" class="progress-bar" role="progressbar" style="width: 0%"></div>
+                    </div>
+                    <div class="mt-3">
+                        <small class="text-muted">Lower score indicates lower risk</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Results Section -->
+    <div class="col-lg-7">
+        <div id="loading" class="text-center" style="display: none;">
+            <div class="spinner-border text-primary" role="status"></div>
+            <p class="mt-3">Optimizing treatment plan using A* search algorithm...</p>
+            <div class="progress mt-2">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 100%"></div>
+            </div>
+        </div>
+        
+        <div id="resultsSection" style="display: none;">
+            <!-- Plan Summary -->
+            <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0"><i class="fas fa-map-signs"></i> Optimized Treatment Path</h4>
+                    <span class="badge bg-success" id="planUtility">Utility: --</span>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <h6>Algorithm: <span class="badge bg-info">A* Search</span></h6>
+                        <p class="small text-muted">Path optimized for maximum utility considering constraints</p>
+                    </div>
+                    
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Step</th>
+                                    <th>Action</th>
+                                    <th>Type</th>
+                                    <th>Duration</th>
+                                    <th>Cost/Month</th>
+                                    <th>Effectiveness</th>
+                                </tr>
+                            </thead>
+                            <tbody id="treatmentPlanTable">
+                                <!-- Plan will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Timeline Visualization -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4 class="mb-0"><i class="fas fa-calendar-alt"></i> Treatment Timeline</h4>
+                </div>
+                <div class="card-body">
+                    <div id="timelineVisualization" style="height: 200px; overflow-x: auto;">
+                        <!-- Timeline will be rendered here -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Follow-up Schedule -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4 class="mb-0"><i class="fas fa-calendar-check"></i> Follow-up Schedule</h4>
+                </div>
+                <div class="card-body">
+                    <div id="followupSchedule">
+                        <!-- Follow-ups will be populated here -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Constraints Satisfaction -->
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0"><i class="fas fa-clipboard-check"></i> Constraints Analysis</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row" id="constraintsAnalysis">
+                        <!-- Constraints will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Empty State -->
+        <div id="emptyState" class="text-center py-5">
+            <i class="fas fa-clipboard-list fa-4x text-muted mb-3"></i>
+            <h4>No Treatment Plan Generated</h4>
+            <p class="text-muted">Fill out the patient profile form and click "Generate Optimized Treatment Plan"</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Update BMI category in real-time
+    document.getElementById('bmi').addEventListener('input', updateBMICategory);
+    
+    // Calculate risk when form changes
+    const formInputs = document.querySelectorAll('#patientProfileForm input, #patientProfileForm select');
+    formInputs.forEach(input => {
+        input.addEventListener('change', calculateRisk);
+    });
+    
+    // Form submission
+    document.getElementById('patientProfileForm').addEventListener('submit', generateTreatmentPlan);
+    
+    // Initial risk calculation
+    calculateRisk();
+});
+
+function updateBMICategory() {
+    const bmi = parseFloat(document.getElementById('bmi').value) || 0;
+    let category = '';
+    
+    if (bmi < 18.5) category = 'Underweight';
+    else if (bmi < 25) category = 'Normal';
+    else if (bmi < 30) category = 'Overweight';
+    else category = 'Obese';
+    
+    document.getElementById('bmiCategory').textContent = `Category: ${category}`;
+}
+
+function calculateRisk() {
+    // Simplified risk calculation for frontend display
+    const age = parseInt(document.getElementById('age').value) || 45;
+    const bmi = parseFloat(document.getElementById('bmi').value) || 25;
+    const glucose = parseFloat(document.getElementById('glucose_level').value) || 100;
+    const systolic = parseInt(document.getElementById('blood_pressure_systolic').value) || 120;
+    
+    // Simplified risk formula
+    let riskScore = 0;
+    riskScore += (age - 20) * 0.2;
+    riskScore += Math.max(0, bmi - 25) * 2;
+    riskScore += Math.max(0, glucose - 100) * 0.1;
+    riskScore += Math.max(0, systolic - 120) * 0.2;
+    
+    riskScore = Math.min(100, Math.max(0, riskScore));
+    
+    // Update display
+    document.getElementById('riskScore').textContent = Math.round(riskScore);
+    document.getElementById('riskProgress').style.width = `${riskScore}%`;
+    
+    // Set risk level and color
+    let riskLevel = '';
+    let colorClass = '';
+    
+    if (riskScore < 30) {
+        riskLevel = 'Low Risk';
+        colorClass = 'bg-success';
+    } else if (riskScore < 60) {
+        riskLevel = 'Medium Risk';
+        colorClass = 'bg-warning';
+    } else if (riskScore < 85) {
+        riskLevel = 'High Risk';
+        colorClass = 'bg-danger';
+    } else {
+        riskLevel = 'Critical Risk';
+        colorClass = 'bg-dark';
+    }
+    
+    document.getElementById('riskLevel').textContent = riskLevel;
+    document.getElementById('riskProgress').className = `progress-bar ${colorClass}`;
+}
+
+async function generateTreatmentPlan(e) {
+    e.preventDefault();
+    
+    // Show loading, hide other sections
+    document.getElementById('loading').style.display = 'block';
+    document.getElementById('resultsSection').style.display = 'none';
+    document.getElementById('emptyState').style.display = 'none';
+    
+    // Collect form data
+    const formData = {
+        age: parseInt(document.getElementById('age').value),
+        bmi: parseFloat(document.getElementById('bmi').value),
+        glucose_level: parseFloat(document.getElementById('glucose_level').value),
+        hba1c: parseFloat(document.getElementById('hba1c').value),
+        blood_pressure_systolic: parseInt(document.getElementById('blood_pressure_systolic').value),
+        blood_pressure_diastolic: parseInt(document.getElementById('blood_pressure_diastolic').value),
+        budget_constraint: parseFloat(document.getElementById('budget_constraint').value),
+        preferences: {
+            prefers_pills: document.getElementById('prefers_pills').checked,
+            prefers_exercise: document.getElementById('prefers_exercise').checked,
+            prefers_diet: document.getElementById('prefers_diet').checked
+        },
+        comorbidities: Array.from(document.getElementById('comorbidities').selectedOptions)
+                           .map(option => option.value)
+    };
+    
+    try {
+        const response = await fetch('/api/treatment/recommend', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData)
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok && data.status === 'success') {
+            displayTreatmentPlan(data);
+        } else {
+            alert('Error: ' + (data.error || 'Unknown error'));
+        }
+    } catch (error) {
+        alert('Connection error: ' + error.message);
+    } finally {
+        document.getElementById('loading').style.display = 'none';
+    }
+}
+
+function displayTreatmentPlan(data) {
+    const plan = data.treatment_plan;
+    const patient = data.patient_summary;
+    
+    // Update utility
+    document.getElementById('planUtility').textContent = `Utility: ${plan.total_estimated_utility.toFixed(2)}`;
+    
+    // Display treatment plan table
+    const tableBody = document.getElementById('treatmentPlanTable');
+    tableBody.innerHTML = '';
+    
+    plan.timeline.forEach((action, index) => {
+        const row = document.createElement('tr');
+        
+        // Format dates
+        const startDate = new Date(action.start_date).toLocaleDateString();
+        const endDate = new Date(action.end_date).toLocaleDateString();
+        
+        // Get type badge color
+        let typeBadge = '';
+        switch(action.type) {
+            case 'lifestyle': typeBadge = 'bg-success'; break;
+            case 'medication': typeBadge = 'bg-warning'; break;
+            case 'monitoring': typeBadge = 'bg-info'; break;
+            case 'educational': typeBadge = 'bg-primary'; break;
+            default: typeBadge = 'bg-secondary';
+        }
+        
+        row.innerHTML = `
+            <td>${index + 1}</td>
+            <td>
+                <strong>${action.description}</strong><br>
+                <small class="text-muted">${action.action_id}</small>
+            </td>
+            <td><span class="badge ${typeBadge}">${action.type}</span></td>
+            <td>${action.duration_days} days<br><small>${startDate} to ${endDate}</small></td>
+            <td>$${action.cost_per_month.toFixed(2)}</td>
+            <td>
+                <div class="progress" style="height: 10px;">
+                    <div class="progress-bar bg-success" style="width: ${action.effectiveness_score * 100}%"></div>
+                </div>
+                <small>${(action.effectiveness_score * 100).toFixed(0)}%</small>
+            </td>
+        `;
+        
+        tableBody.appendChild(row);
+    });
+    
+    // Display follow-up schedule
+    const followupDiv = document.getElementById('followupSchedule');
+    followupDiv.innerHTML = '';
+    
+    plan.follow_up_schedule.forEach(appointment => {
+        const date = new Date(appointment.recommended_date).toLocaleDateString();
+        const card = document.createElement('div');
+        card.className = 'card mb-2';
+        card.innerHTML = `
+            <div class="card-body p-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="mb-1">${appointment.type.replace('_', ' ').toUpperCase()}</h6>
+                        <p class="mb-1 small">${appointment.purpose}</p>
+                        <p class="mb-0 small text-muted">Provider: ${appointment.provider}</p>
+                    </div>
+                    <div class="text-end">
+                        <span class="badge bg-primary">${date}</span>
+                        <div class="mt-1">
+                            ${appointment.tests_recommended.map(test => 
+                                `<span class="badge bg-info me-1">${test}</span>`
+                            ).join('')}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        followupDiv.appendChild(card);
+    });
+    
+    // Display constraints analysis
+    const constraintsDiv = document.getElementById('constraintsAnalysis');
+    constraintsDiv.innerHTML = '';
+    
+    if (plan.constraints_satisfied) {
+        Object.entries(plan.constraints_satisfied).forEach(([constraint, satisfied]) => {
+            const col = document.createElement('div');
+            col.className = 'col-md-3 mb-3';
+            
+            const icon = satisfied ? 'fa-check-circle text-success' : 'fa-times-circle text-danger';
+            const text = satisfied ? 'Satisfied' : 'Not Satisfied';
+            
+            col.innerHTML = `
+                <div class="text-center p-3 border rounded">
+                    <i class="fas ${icon} fa-2x mb-2"></i>
+                    <h6 class="mb-1">${constraint.toUpperCase()}</h6>
+                    <p class="mb-0 small">${text}</p>
+                </div>
+            `;
+            
+            constraintsDiv.appendChild(col);
+        });
+    }
+    
+    // Create timeline visualization
+    createTimelineVisualization(plan.timeline);
+    
+    // Show results section
+    document.getElementById('resultsSection').style.display = 'block';
+    document.getElementById('emptyState').style.display = 'none';
+}
+
+function createTimelineVisualization(timeline) {
+    const container = document.getElementById('timelineVisualization');
+    container.innerHTML = '';
+    
+    // Create a simple horizontal timeline
+    const timelineDiv = document.createElement('div');
+    timelineDiv.className = 'd-flex align-items-center';
+    timelineDiv.style.height = '100%';
+    timelineDiv.style.minWidth = `${timeline.length * 150}px`;
+    
+    timeline.forEach((action, index) => {
+        const actionDiv = document.createElement('div');
+        actionDiv.className = 'border rounded p-2 mx-2';
+        actionDiv.style.width = '140px';
+        actionDiv.style.height = '80%';
+        actionDiv.style.borderLeft = '4px solid ' + getActionColor(action.type);
+        
+        const startDate = new Date(action.start_date).toLocaleDateString('en-US', { 
+            month: 'short', 
+            day: 'numeric' 
+        });
+        
+        actionDiv.innerHTML = `
+            <div class="small fw-bold">Step ${index + 1}</div>
+            <div class="small">${startDate}</div>
+            <div class="small text-truncate" title="${action.description}">${action.description}</div>
+            <div class="small text-muted">${action.duration_days} days</div>
+        `;
+        
+        timelineDiv.appendChild(actionDiv);
+        
+        // Add arrow between steps (except for last)
+        if (index < timeline.length - 1) {
+            const arrow = document.createElement('div');
+            arrow.className = 'd-flex align-items-center';
+            arrow.innerHTML = '<i class="fas fa-arrow-right text-muted"></i>';
+            timelineDiv.appendChild(arrow);
+        }
+    });
+    
+    container.appendChild(timelineDiv);
+}
+
+function getActionColor(actionType) {
+    switch(actionType) {
+        case 'lifestyle': return '#10b981';
+        case 'medication': return '#f59e0b';
+        case 'monitoring': return '#06b6d4';
+        case 'educational': return '#8b5cf6';
+        default: return '#6b7280';
+    }
+}
+</script>
+
+<style>
+.selected-items-container {
+    min-height: 60px;
+    border: 2px dashed #dee2e6;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.progress {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(79, 70, 229, 0.05);
+    cursor: pointer;
+}
+
+.badge {
+    font-size: 0.85em;
+}
+
+#timelineVisualization {
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+#emptyState {
+    padding: 4rem 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+}
+</style>
+{% endblock %}

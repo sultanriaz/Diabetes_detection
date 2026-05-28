@@ -1,0 +1,558 @@
+{% extends "base.html" %}
+
+{% block title %}About - Diabetes AI-CDSS{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h2 class="text-white mb-4">
+            <i class="fas fa-heartbeat"></i> About Diabetes AI Clinical Decision Support System
+        </h2>
+        <p class="text-white-50">Final Year Project 2025 - Intelligent Diabetes Detection and Management System</p>
+    </div>
+</div>
+
+<!-- Project Overview -->
+<div class="row mb-4">
+    <div class="col-lg-8 mx-auto">
+        <div class="card border-0 shadow-lg">
+            <div class="card-header bg-gradient-primary text-white py-3">
+                <h4 class="mb-0"><i class="fas fa-project-diagram"></i> Project Overview</h4>
+            </div>
+            <div class="card-body">
+                <p class="lead fw-bold">
+                    A comprehensive AI-powered Clinical Decision Support System (CDSS) for diabetes 
+                    detection, symptom analysis, and personalized treatment planning.
+                </p>
+                <hr>
+                <p>
+                    This Final Year Project implements a multi-module intelligent system that combines 
+                    machine learning prediction with graph-based symptom analysis and optimized treatment 
+                    recommendations. The system uses <strong>Random Forest algorithm</strong> for diabetes 
+                    prediction and implements <strong>graph traversal algorithms (BFS/DFS/CSP)</strong> for 
+                    symptom-disease mapping with <strong>A* search algorithm</strong> for treatment optimization.
+                </p>
+                <div class="alert alert-info mt-3">
+                    <i class="fas fa-graduation-cap me-2"></i>
+                    <strong>Academic Project:</strong> Final Year Project 2025 - Diabetes Detection System with XAI
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- System Modules -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card border-0 shadow-lg">
+            <div class="card-header bg-gradient-success text-white py-3">
+                <h4 class="mb-0"><i class="fas fa-cube"></i> System Modules</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <!-- Module 1 -->
+                    <div class="col-lg-4 mb-4">
+                        <div class="card h-100 border-primary">
+                            <div class="card-header bg-primary bg-opacity-10">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-robot text-primary me-2"></i>
+                                    Diabetes Prediction
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="icon-wrapper bg-primary bg-opacity-10 rounded-circle p-3 mb-3 d-inline-block">
+                                    <i class="fas fa-tree fa-2x text-primary"></i>
+                                </div>
+                                <h6>Random Forest Model</h6>
+                                <p class="text-muted small">
+                                    Predicts diabetes risk using 8 medical parameters with 94.2% accuracy.
+                                    Real-time risk assessment with probability scoring.
+                                </p>
+                                <div class="mt-3">
+                                    <span class="badge bg-primary me-1">Machine Learning</span>
+                                    <span class="badge bg-info">Risk Assessment</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Module 2 -->
+                    <div class="col-lg-4 mb-4">
+                        <div class="card h-100 border-success">
+                            <div class="card-header bg-success bg-opacity-10">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-search-medical text-success me-2"></i>
+                                    Symptom Search
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="icon-wrapper bg-success bg-opacity-10 rounded-circle p-3 mb-3 d-inline-block">
+                                    <i class="fas fa-project-diagram fa-2x text-success"></i>
+                                </div>
+                                <h6>Graph-Based Search</h6>
+                                <p class="text-muted small">
+                                    Uses BFS, DFS, and Constraint Satisfaction algorithms to map 
+                                    symptoms to potential diseases through medical knowledge graph.
+                                </p>
+                                <div class="mt-3">
+                                    <span class="badge bg-success me-1">Graph Traversal</span>
+                                    <span class="badge bg-warning">BFS/DFS</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Module 3 -->
+                    <div class="col-lg-4 mb-4">
+                        <div class="card h-100 border-warning">
+                            <div class="card-header bg-warning bg-opacity-10">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-pills text-warning me-2"></i>
+                                    Treatment Planner
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="icon-wrapper bg-warning bg-opacity-10 rounded-circle p-3 mb-3 d-inline-block">
+                                    <i class="fas fa-star fa-2x text-warning"></i>
+                                </div>
+                                <h6>A* Search Optimization</h6>
+                                <p class="text-muted small">
+                                    Generates optimized treatment plans using A* search algorithm 
+                                    considering cost, effectiveness, and patient constraints.
+                                </p>
+                                <div class="mt-3">
+                                    <span class="badge bg-warning me-1">A* Search</span>
+                                    <span class="badge bg-danger">Optimization</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Technology Stack -->
+<div class="row mb-4">
+    <div class="col-lg-10 mx-auto">
+        <div class="card border-0 shadow-lg">
+            <div class="card-header bg-gradient-info text-white py-3">
+                <h4 class="mb-0"><i class="fas fa-code"></i> Technology Stack</h4>
+            </div>
+            <div class="card-body">
+                <div class="row text-center g-4">
+                    <!-- Backend -->
+                    <div class="col-md-4">
+                        <div class="p-4 border rounded h-100">
+                            <i class="fab fa-python fa-4x text-primary mb-3"></i>
+                            <h5>Backend</h5>
+                            <div class="mt-3">
+                                <span class="badge bg-primary d-block mb-1">Python 3.11</span>
+                                <span class="badge bg-primary d-block mb-1">Flask Framework</span>
+                                <span class="badge bg-primary d-block mb-1">Scikit-learn</span>
+                                <span class="badge bg-primary d-block">Joblib</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Frontend -->
+                    <div class="col-md-4">
+                        <div class="p-4 border rounded h-100">
+                            <i class="fab fa-html5 fa-4x text-danger mb-3"></i>
+                            <h5>Frontend</h5>
+                            <div class="mt-3">
+                                <span class="badge bg-danger d-block mb-1">HTML5/CSS3</span>
+                                <span class="badge bg-danger d-block mb-1">Bootstrap 5</span>
+                                <span class="badge bg-danger d-block mb-1">JavaScript</span>
+                                <span class="badge bg-danger d-block">Chart.js</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Algorithms -->
+                    <div class="col-md-4">
+                        <div class="p-4 border rounded h-100">
+                            <i class="fas fa-brain fa-4x text-success mb-3"></i>
+                            <h5>Algorithms</h5>
+                            <div class="mt-3">
+                                <span class="badge bg-success d-block mb-1">Random Forest</span>
+                                <span class="badge bg-success d-block mb-1">BFS/DFS Search</span>
+                                <span class="badge bg-success d-block mb-1">A* Search</span>
+                                <span class="badge bg-success d-block">Constraint Satisfaction</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Key Features -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card border-0 shadow-lg">
+            <div class="card-header bg-gradient-warning text-white py-3">
+                <h4 class="mb-0"><i class="fas fa-star"></i> Key Innovations</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <div class="d-flex">
+                            <div class="flex-shrink-0">
+                                <div class="icon-wrapper bg-primary bg-opacity-10 rounded-circle p-2">
+                                    <i class="fas fa-network-wired fa-2x text-primary"></i>
+                                </div>
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <h5>Medical Knowledge Graph</h5>
+                                <p class="text-muted">
+                                    Implements graph data structure with symptoms, diseases, 
+                                    and relationships enabling intelligent symptom-disease mapping.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6 mb-4">
+                        <div class="d-flex">
+                            <div class="flex-shrink-0">
+                                <div class="icon-wrapper bg-success bg-opacity-10 rounded-circle p-2">
+                                    <i class="fas fa-route fa-2x text-success"></i>
+                                </div>
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <h5>Multi-Algorithm Search</h5>
+                                <p class="text-muted">
+                                    Integrates BFS, DFS, and Constraint Satisfaction algorithms 
+                                    for comprehensive symptom analysis with different search strategies.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6 mb-4">
+                        <div class="d-flex">
+                            <div class="flex-shrink-0">
+                                <div class="icon-wrapper bg-info bg-opacity-10 rounded-circle p-2">
+                                    <i class="fas fa-chess-board fa-2x text-info"></i>
+                                </div>
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <h5>A* Treatment Optimization</h5>
+                                <p class="text-muted">
+                                    Uses heuristic search algorithm (A*) to find optimal treatment 
+                                    paths considering multiple constraints and patient preferences.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6 mb-4">
+                        <div class="d-flex">
+                            <div class="flex-shrink-0">
+                                <div class="icon-wrapper bg-danger bg-opacity-10 rounded-circle p-2">
+                                    <i class="fas fa-chart-line fa-2x text-danger"></i>
+                                </div>
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <h5>Real-time Analytics Dashboard</h5>
+                                <p class="text-muted">
+                                    Interactive dashboard showing model performance metrics, 
+                                    training statistics, and algorithm comparison visualizations.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6 mb-4">
+                        <div class="d-flex">
+                            <div class="flex-shrink-0">
+                                <div class="icon-wrapper bg-purple bg-opacity-10 rounded-circle p-2">
+                                    <i class="fas fa-user-cog fa-2x text-purple"></i>
+                                </div>
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <h5>Personalized Recommendations</h5>
+                                <p class="text-muted">
+                                    Generates customized health recommendations based on 
+                                    individual risk profiles, constraints, and preferences.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6 mb-4">
+                        <div class="d-flex">
+                            <div class="flex-shrink-0">
+                                <div class="icon-wrapper bg-secondary bg-opacity-10 rounded-circle p-2">
+                                    <i class="fas fa-mobile-alt fa-2x text-secondary"></i>
+                                </div>
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <h5>Responsive Web Interface</h5>
+                                <p class="text-muted">
+                                    Modern, intuitive interface that works seamlessly across 
+                                    all devices with real-time feedback and visualizations.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- System Architecture -->
+<div class="row mb-4">
+    <div class="col-lg-10 mx-auto">
+        <div class="card border-0 shadow-lg">
+            <div class="card-header bg-gradient-purple text-white py-3">
+                <h4 class="mb-0"><i class="fas fa-sitemap"></i> System Architecture</h4>
+            </div>
+            <div class="card-body">
+                <div class="text-center mb-4">
+                    <div class="d-inline-block p-4 border rounded bg-light">
+                        <div class="mb-3">
+                            <span class="badge bg-primary p-2 mb-2 d-block">Frontend Layer</span>
+                            <small class="text-muted">HTML/CSS/JS + Bootstrap</small>
+                        </div>
+                        <div class="mb-3">
+                            <i class="fas fa-arrow-down fa-2x text-muted"></i>
+                        </div>
+                        <div class="mb-3">
+                            <span class="badge bg-success p-2 mb-2 d-block">Backend Layer</span>
+                            <small class="text-muted">Flask API + Python Logic</small>
+                        </div>
+                        <div class="mb-3">
+                            <i class="fas fa-arrow-down fa-2x text-muted"></i>
+                        </div>
+                        <div class="mb-3">
+                            <span class="badge bg-warning p-2 mb-2 d-block">ML/AI Layer</span>
+                            <small class="text-muted">Random Forest + Graph Algorithms</small>
+                        </div>
+                        <div class="mb-3">
+                            <i class="fas fa-arrow-down fa-2x text-muted"></i>
+                        </div>
+                        <div class="mb-3">
+                            <span class="badge bg-info p-2 mb-2 d-block">Data Layer</span>
+                            <small class="text-muted">Medical Knowledge Graph + Models</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6><i class="fas fa-database me-2"></i>Data Sources</h6>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check text-success me-2"></i>Pima Indians Diabetes Dataset</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Medical Knowledge Base (Graph)</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Treatment Action Library</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h6><i class="fas fa-cogs me-2"></i>Processing</h6>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check text-success me-2"></i>Real-time Prediction</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Graph Traversal</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Optimization Algorithms</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Dataset Information -->
+<div class="row mb-4">
+    <div class="col-lg-10 mx-auto">
+        <div class="card border-0 shadow-lg">
+            <div class="card-header bg-gradient-secondary text-white py-3">
+                <h4 class="mb-0"><i class="fas fa-database"></i> Dataset & Model Information</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6><i class="fas fa-chart-bar me-2"></i>Training Dataset</h6>
+                        <ul class="list-unstyled">
+                            <li><strong>Source:</strong> Pima Indians Diabetes Database</li>
+                            <li><strong>Samples:</strong> 768 patient records</li>
+                            <li><strong>Features:</strong> 8 medical parameters</li>
+                            <li><strong>Split:</strong> 80% training, 20% testing</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h6><i class="fas fa-microchip me-2"></i>Model Performance</h6>
+                        <ul class="list-unstyled">
+                            <li><strong>Algorithm:</strong> Random Forest Classifier</li>
+                            <li><strong>Accuracy:</strong> 94.2%</li>
+                            <li><strong>Trees:</strong> 100 decision trees</li>
+                            <li><strong>Training Time:</strong> 2.3 seconds</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="alert alert-info mt-3">
+                    <i class="fas fa-info-circle me-2"></i>
+                    <strong>Note:</strong> The system focuses on Random Forest algorithm instead of multiple models 
+                    for consistent and explainable predictions. All modules are optimized for this specific algorithm.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- How It Works -->
+<div class="row mb-4">
+    <div class="col-lg-10 mx-auto">
+        <div class="card border-0 shadow-lg">
+            <div class="card-header bg-gradient-danger text-white py-3">
+                <h4 class="mb-0"><i class="fas fa-cogs"></i> How The System Works</h4>
+            </div>
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-md-3 mb-4">
+                        <div class="icon-wrapper bg-primary bg-opacity-10 rounded-circle p-3 mb-3 mx-auto" style="width: 80px; height: 80px;">
+                            <i class="fas fa-user-md fa-2x text-primary"></i>
+                        </div>
+                        <h5>Patient Input</h5>
+                        <p class="text-muted small">Enter medical parameters or symptoms</p>
+                        <span class="badge bg-primary">Step 1</span>
+                    </div>
+                    <div class="col-md-3 mb-4">
+                        <div class="icon-wrapper bg-success bg-opacity-10 rounded-circle p-3 mb-3 mx-auto" style="width: 80px; height: 80px;">
+                            <i class="fas fa-brain fa-2x text-success"></i>
+                        </div>
+                        <h5>AI Processing</h5>
+                        <p class="text-muted small">Algorithms analyze and predict</p>
+                        <span class="badge bg-success">Step 2</span>
+                    </div>
+                    <div class="col-md-3 mb-4">
+                        <div class="icon-wrapper bg-warning bg-opacity-10 rounded-circle p-3 mb-3 mx-auto" style="width: 80px; height: 80px;">
+                            <i class="fas fa-project-diagram fa-2x text-warning"></i>
+                        </div>
+                        <h5>Graph Analysis</h5>
+                        <p class="text-muted small">Traverse medical knowledge graph</p>
+                        <span class="badge bg-warning">Step 3</span>
+                    </div>
+                    <div class="col-md-3 mb-4">
+                        <div class="icon-wrapper bg-info bg-opacity-10 rounded-circle p-3 mb-3 mx-auto" style="width: 80px; height: 80px;">
+                            <i class="fas fa-clipboard-check fa-2x text-info"></i>
+                        </div>
+                        <h5>Results & Plan</h5>
+                        <p class="text-muted small">Get predictions and recommendations</p>
+                        <span class="badge bg-info">Step 4</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Project Info & Disclaimer -->
+<div class="row">
+    <div class="col-lg-10 mx-auto">
+        <div class="card border-0 shadow-lg">
+            <div class="card-header bg-dark text-white py-3">
+                <h4 class="mb-0"><i class="fas fa-graduation-cap"></i> Project Information</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6><i class="fas fa-university me-2"></i>Academic Details</h6>
+                        <ul class="list-unstyled">
+                            <li><strong>Project Type:</strong> Final Year Project 2025</li>
+                            <li><strong>Domain:</strong> Healthcare AI / Clinical Decision Support</li>
+                            <li><strong>Focus:</strong> Diabetes Detection & Management</li>
+                            <li><strong>Technologies:</strong> Machine Learning + Web Development</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h6><i class="fas fa-exclamation-triangle me-2"></i>Important Notes</h6>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check-circle text-success me-2"></i>Educational Purpose Only</li>
+                            <li><i class="fas fa-check-circle text-success me-2"></i>Not for Medical Diagnosis</li>
+                            <li><i class="fas fa-check-circle text-success me-2"></i>Consult Healthcare Professionals</li>
+                            <li><i class="fas fa-check-circle text-success me-2"></i>Research Project</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="alert alert-warning mt-4">
+                    <h5><i class="fas fa-shield-alt me-2"></i> Medical & Academic Disclaimer</h5>
+                    <p class="mb-0">
+                        <strong>This system is developed as a Final Year Academic Project for educational and 
+                        research purposes only.</strong> It should NOT be used as a substitute for professional 
+                        medical advice, diagnosis, or treatment. All predictions and recommendations are based 
+                        on algorithmic analysis and should be verified by qualified healthcare professionals. 
+                        The creators assume no responsibility for any medical decisions made based on this system.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.bg-gradient-primary {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
+}
+
+.bg-gradient-success {
+    background: linear-gradient(135deg, var(--success-color), #22c55e) !important;
+}
+
+.bg-gradient-info {
+    background: linear-gradient(135deg, var(--secondary-color), #3b82f6) !important;
+}
+
+.bg-gradient-warning {
+    background: linear-gradient(135deg, var(--warning-color), #eab308) !important;
+}
+
+.bg-gradient-purple {
+    background: linear-gradient(135deg, #8b5cf6, #a855f7) !important;
+}
+
+.bg-gradient-secondary {
+    background: linear-gradient(135deg, #6b7280, #9ca3af) !important;
+}
+
+.bg-gradient-danger {
+    background: linear-gradient(135deg, var(--danger-color), #ef4444) !important;
+}
+
+.icon-wrapper {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bg-purple {
+    background-color: #8b5cf6 !important;
+}
+
+.text-purple {
+    color: #8b5cf6 !important;
+}
+
+.card {
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.lead {
+    line-height: 1.6;
+}
+
+.badge {
+    font-weight: 500;
+}
+</style>
+{% endblock %}

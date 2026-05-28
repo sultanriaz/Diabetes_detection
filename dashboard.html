@@ -1,0 +1,407 @@
+{% extends "base.html" %}
+
+{% block title %}Analytics Dashboard - AI-CDSS{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h2 class="text-white mb-4">
+            <i class="fas fa-chart-line"></i> Model Performance Dashboard
+        </h2>
+    </div>
+</div>
+
+<!-- Performance Metrics Cards -->
+<div class="row mb-4">
+    <div class="col-md-3 mb-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="fas fa-bullseye fa-3x text-primary mb-3"></i>
+                <h3 class="text-primary">94.2%</h3>
+                <p class="text-muted mb-0">Accuracy</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 mb-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="fas fa-crosshairs fa-3x text-success mb-3"></i>
+                <h3 class="text-success">91.8%</h3>
+                <p class="text-muted mb-0">Precision</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 mb-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="fas fa-search fa-3x text-warning mb-3"></i>
+                <h3 class="text-warning">89.5%</h3>
+                <p class="text-muted mb-0">Recall</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 mb-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="fas fa-chart-area fa-3x text-info mb-3"></i>
+                <h3 class="text-info">95.7%</h3>
+                <p class="text-muted mb-0">ROC-AUC</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Charts Row - Only Model Comparison Chart remains -->
+<div class="row mb-4">
+    <!-- Model Comparison Chart -->
+    <div class="col-12 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-balance-scale"></i> Random Forest Performance Metrics</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="modelComparisonChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Model Information Table - Optimized Version -->
+<div class="row">
+    <div class="col-12">
+        <div class="card border-0 shadow-lg mb-4">
+            <div class="card-header bg-gradient-primary text-white py-3">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-brain fa-2x me-3"></i>
+                    <div>
+                        <h4 class="mb-0 fw-bold">Random Forest Model Information</h4>
+                        <p class="mb-0 opacity-75">Advanced ensemble learning algorithm performance metrics</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="ps-4 py-3">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-microchip text-primary me-2"></i>
+                                        <span class="fw-semibold">Model</span>
+                                    </div>
+                                </th>
+                                <th class="py-3">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-cogs text-primary me-2"></i>
+                                        <span class="fw-semibold">Algorithm</span>
+                                    </div>
+                                </th>
+                                <th class="py-3">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-bullseye text-primary me-2"></i>
+                                        <span class="fw-semibold">Accuracy</span>
+                                    </div>
+                                </th>
+                                <th class="py-3">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-crosshairs text-primary me-2"></i>
+                                        <span class="fw-semibold">Precision</span>
+                                    </div>
+                                </th>
+                                <th class="py-3">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-search text-primary me-2"></i>
+                                        <span class="fw-semibold">Recall</span>
+                                    </div>
+                                </th>
+                                <th class="py-3">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-balance-scale text-primary me-2"></i>
+                                        <span class="fw-semibold">F1-Score</span>
+                                    </div>
+                                </th>
+                                <th class="py-3">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-chart-area text-primary me-2"></i>
+                                        <span class="fw-semibold">ROC-AUC</span>
+                                    </div>
+                                </th>
+                                <th class="pe-4 py-3">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-tree text-primary me-2"></i>
+                                        <span class="fw-semibold">Number of Trees</span>
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="hover-shadow">
+                                <td class="ps-4 py-3">
+                                    <div class="d-flex align-items-center">
+                                        <div class="icon-wrapper bg-primary bg-opacity-10 rounded-circle p-2 me-3">
+                                            <i class="fas fa-tree text-primary"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-0 fw-bold">Random Forest</h6>
+                                            <small class="text-muted">Ensemble Classifier</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="py-3">
+                                    <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2">
+                                        <i class="fas fa-layer-group me-1"></i>
+                                        Ensemble Learning
+                                    </span>
+                                </td>
+                                <td class="py-3">
+                                    <div class="d-flex align-items-center">
+                                        <div class="progress flex-grow-1 me-2" style="height: 8px;">
+                                            <div class="progress-bar bg-success" role="progressbar" 
+                                                 style="width: 94.2%" aria-valuenow="94.2" aria-valuemin="0" 
+                                                 aria-valuemax="100"></div>
+                                        </div>
+                                        <span class="badge bg-success bg-opacity-10 text-success fw-bold px-3 py-2">
+                                            94.2%
+                                        </span>
+                                    </div>
+                                </td>
+                                <td class="py-3">
+                                    <div class="d-flex align-items-center">
+                                        <div class="progress flex-grow-1 me-2" style="height: 8px;">
+                                            <div class="progress-bar bg-info" role="progressbar" 
+                                                 style="width: 91.8%" aria-valuenow="91.8" aria-valuemin="0" 
+                                                 aria-valuemax="100"></div>
+                                        </div>
+                                        <span class="badge bg-info bg-opacity-10 text-info fw-bold px-3 py-2">
+                                            91.8%
+                                        </span>
+                                    </div>
+                                </td>
+                                <td class="py-3">
+                                    <div class="d-flex align-items-center">
+                                        <div class="progress flex-grow-1 me-2" style="height: 8px;">
+                                            <div class="progress-bar bg-warning" role="progressbar" 
+                                                 style="width: 89.5%" aria-valuenow="89.5" aria-valuemin="0" 
+                                                 aria-valuemax="100"></div>
+                                        </div>
+                                        <span class="badge bg-warning bg-opacity-10 text-warning fw-bold px-3 py-2">
+                                            89.5%
+                                        </span>
+                                    </div>
+                                </td>
+                                <td class="py-3">
+                                    <div class="d-flex align-items-center">
+                                        <div class="progress flex-grow-1 me-2" style="height: 8px;">
+                                            <div class="progress-bar bg-purple" role="progressbar" 
+                                                 style="width: 90.6%" aria-valuenow="90.6" aria-valuemin="0" 
+                                                 aria-valuemax="100"></div>
+                                        </div>
+                                        <span class="badge bg-purple bg-opacity-10 text-purple fw-bold px-3 py-2">
+                                            90.6%
+                                        </span>
+                                    </div>
+                                </td>
+                                <td class="py-3">
+                                    <div class="d-flex align-items-center">
+                                        <div class="progress flex-grow-1 me-2" style="height: 8px;">
+                                            <div class="progress-bar bg-danger" role="progressbar" 
+                                                 style="width: 95.7%" aria-valuenow="95.7" aria-valuemin="0" 
+                                                 aria-valuemax="100"></div>
+                                        </div>
+                                        <span class="badge bg-danger bg-opacity-10 text-danger fw-bold px-3 py-2">
+                                            95.7%
+                                        </span>
+                                    </div>
+                                </td>
+                                <td class="pe-4 py-3">
+                                    <div class="d-flex align-items-center">
+                                        <div class="icon-wrapper bg-success bg-opacity-10 rounded-circle p-2 me-2">
+                                            <i class="fas fa-seedling text-success"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-0 fw-bold">100 trees</h6>
+                                            <small class="text-muted">Max depth: 10</small>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer bg-light py-3">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="d-flex align-items-center">
+                            <div class="icon-wrapper bg-primary bg-opacity-10 rounded-circle p-2 me-3">
+                                <i class="fas fa-lightbulb text-primary"></i>
+                            </div>
+                            <div>
+                                <small class="text-muted d-block">Training Time</small>
+                                <h6 class="mb-0 fw-bold">2.3 seconds</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="d-flex align-items-center">
+                            <div class="icon-wrapper bg-success bg-opacity-10 rounded-circle p-2 me-3">
+                                <i class="fas fa-database text-success"></i>
+                            </div>
+                            <div>
+                                <small class="text-muted d-block">Training Samples</small>
+                                <h6 class="mb-0 fw-bold">768 records</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="d-flex align-items-center">
+                            <div class="icon-wrapper bg-warning bg-opacity-10 rounded-circle p-2 me-3">
+                                <i class="fas fa-sliders-h text-warning"></i>
+                            </div>
+                            <div>
+                                <small class="text-muted d-block">Hyperparameters</small>
+                                <h6 class="mb-0 fw-bold">Optimized</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.bg-gradient-primary {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
+}
+
+.hover-shadow:hover {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+    transform: translateY(-2px);
+    transition: all 0.3s ease;
+}
+
+.icon-wrapper {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bg-purple {
+    background-color: #8b5cf6 !important;
+}
+
+.text-purple {
+    color: #8b5cf6 !important;
+}
+
+.bg-purple.bg-opacity-10 {
+    background-color: rgba(139, 92, 246, 0.1) !important;
+}
+
+.table-hover > tbody > tr:hover {
+    background-color: rgba(79, 70, 229, 0.05);
+}
+
+.progress {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    border-radius: 10px;
+}
+
+.card {
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.table > :not(:first-child) {
+    border-top: 2px solid #e9ecef;
+}
+
+.table th {
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+
+.badge {
+    border-radius: 8px;
+    font-weight: 500;
+}
+
+.fw-semibold {
+    font-weight: 600;
+}
+
+/* Animation for table rows */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.table tbody tr {
+    animation: fadeIn 0.5s ease-out;
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Model Comparison Chart - Only this chart remains
+const modelCompCtx = document.getElementById('modelComparisonChart').getContext('2d');
+new Chart(modelCompCtx, {
+    type: 'bar',
+    data: {
+        labels: ['Accuracy', 'Precision', 'Recall', 'F1-Score', 'ROC-AUC'],
+        datasets: [{
+            label: 'Random Forest',
+            data: [94.2, 91.8, 89.5, 90.6, 95.7],
+            backgroundColor: 'rgba(79, 70, 229, 0.7)',
+            borderColor: 'rgba(79, 70, 229, 1)',
+            borderWidth: 2
+        }]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            y: {
+                beginAtZero: true,
+                max: 100,
+                ticks: {
+                    callback: function(value) {
+                        return value + '%';
+                    }
+                }
+            }
+        },
+        plugins: {
+            legend: {
+                position: 'top',
+            },
+            title: {
+                display: true,
+                text: 'Random Forest Performance Metrics'
+            }
+        }
+    }
+});
+</script>
+{% endblock %}
